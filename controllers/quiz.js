@@ -13,7 +13,11 @@ exports.load = (req, res, next, quizId) => {
             throw new Error('There is no quiz with id=' + quizId);
         }
     })
-    .catch(error => next(error));
+    .catch(error => {
+        req.session.randomPlay =  [];
+        req.session.score = 0;
+        res.render('quizzes/random_result',{score:req.session.score, answer:req.query['answer'],result:false});
+    });
 };
 
 
